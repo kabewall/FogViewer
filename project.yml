@@ -1,0 +1,42 @@
+name: FogViewer
+options:
+  bundleIdPrefix: com.kabewall
+  deploymentTarget:
+    macOS: "15.0"
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGN_STYLE: Manual
+    ENABLE_HARDENED_RUNTIME: NO
+targets:
+  FogViewer:
+    type: application
+    platform: macOS
+    sources: [FogViewer]
+    info:
+      path: FogViewer/Info.plist
+      properties:
+        CFBundleDisplayName: FogViewer
+        LSApplicationCategoryType: public.app-category.travel
+        NSHumanReadableCopyright: ""
+        NSLocationUsageDescription: 地図に現在地を表示するために使います。
+        NSLocationWhenInUseUsageDescription: 地図に現在地を表示するために使います。
+  FogViewerTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources: [FogViewerTests]
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+    dependencies:
+      - target: FogViewer
+schemes:
+  FogViewer:
+    build:
+      targets:
+        FogViewer: all
+    test:
+      targets: [FogViewerTests]

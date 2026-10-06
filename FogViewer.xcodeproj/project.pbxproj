@@ -1,0 +1,544 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		002C6C789B19B96307609FD3 /* FogMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FEE389AEE419FB4069718D /* FogMapView.swift */; };
+		00E485131B01C054E50AB8DE /* HistoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D9147B20E88C77303BED029 /* HistoryStore.swift */; };
+		07687DEE03C4606F042D3270 /* HistoryRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474FAFD018B9C2F5D2EC58CF /* HistoryRecorder.swift */; };
+		0838FFDD5C94ADA96C9349A9 /* HistoryMaintenance.swift in Sources */ = {isa = PBXBuildFile; fileRef = F30518F41A2359587F0239F6 /* HistoryMaintenance.swift */; };
+		0AD846ED31545B25756BC62E /* FogStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BE7600EB58E36DD7096E96 /* FogStore.swift */; };
+		17FB554B7AA3040231190378 /* FogData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4BED4B76AAA65D0D3CE81E4 /* FogData.swift */; };
+		2B4DC65E1852A9CEC8756DBD /* RegionRankingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB77E7E1CE3F76495F3C068 /* RegionRankingView.swift */; };
+		302F0BDFF1C5466C93393F9D /* FogViewerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F6CD317A9849B2FDE4CB7B3 /* FogViewerApp.swift */; };
+		30E1D4AE3EDAC24F4E658E5D /* FogRenderBenchmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D62AA6F6A04401FE927CADE /* FogRenderBenchmark.swift */; };
+		437BC40194C586E510AEE425 /* DiffCodec.swift in Sources */ = {isa = PBXBuildFile; fileRef = 781D35A1E7F0AB4025A44F5B /* DiffCodec.swift */; };
+		5768A5DC64B04C23474E368D /* RegionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353A5F2E0706C785228416C6 /* RegionModel.swift */; };
+		620DB034BF1D495110D1515E /* PixelMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9AD5A765FB36316B30B1CA /* PixelMap.swift */; };
+		8161C0D9914818D934690100 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B980B3CE690E1C614CDE4114 /* MapController.swift */; };
+		82B8CA1D86182352CEF12CE9 /* regions.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9B76FC21455DC7B8359D1CAC /* regions.bin */; };
+		9391FFC28994421AF1E88F29 /* FogDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639AAF06C0E08D3240045B0 /* FogDataTests.swift */; };
+		A73E71EBE09E37C2CD7BE4C3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20DFE39115FD54658F57D38 /* ContentView.swift */; };
+		A80AE1EC6DB6CD4A55C0541D /* FogOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DACC305EF6C718ABC249B2 /* FogOverlay.swift */; };
+		A98BC5E40016F3EC94DC8B3C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36AD69B8BFD64D6473AAB1 /* SettingsView.swift */; };
+		B5A2C44986EC0D902E1498AD /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326FD1A3478E352A275D442C /* SQLiteDatabase.swift */; };
+		C40991F915D22C2281E7636D /* RegionCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EA199272F93CF1F5148C09 /* RegionCatalog.swift */; };
+		C599E264E9BDC7A32F9C7BC1 /* TimelapseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3C2A352110F8B0E5A54BE /* TimelapseModel.swift */; };
+		CD4433059C76CACF8ED80649 /* HistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284D84C270BE531668100F5 /* HistoryModel.swift */; };
+		D32403BCAB94F6F91D1CA933 /* RegionStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999924C04F4FA7874C12EA5A /* RegionStats.swift */; };
+		D82787420EF5E0593FE1214D /* RegionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB09E39DC77F46A4211EDB /* RegionTests.swift */; };
+		E6AE9D1C33065D8149D8E797 /* TimelapseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756349E4F99481881A0A768F /* TimelapseData.swift */; };
+		EF2F600662A5C2BF46BE049D /* GPXBackfill.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B293894D1D86F075DA0F3B /* GPXBackfill.swift */; };
+		F3B678807239FE4935CDE582 /* GPXReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3CFC8763AA223C437E710F /* GPXReader.swift */; };
+		F410E6D486D66DD159A45D5B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721050A5FB03C98BD59E0D3C /* HistoryTests.swift */; };
+		F9B1970AE3181915156FA688 /* TimelineJSONReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1D595ECB6E20E7EDA1D947 /* TimelineJSONReader.swift */; };
+		FCA4D77DE1E2D75AE7D4BA38 /* WatchAgent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B680550E3D5D3E61450FD69 /* WatchAgent.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A432D247B1F85973126B92F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 743EE963C120CEDEAD39FBCD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DFC6346D8923FDCCA84C3A3F;
+			remoteInfo = FogViewer;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		20D3C2A352110F8B0E5A54BE /* TimelapseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelapseModel.swift; sourceTree = "<group>"; };
+		2D62AA6F6A04401FE927CADE /* FogRenderBenchmark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogRenderBenchmark.swift; sourceTree = "<group>"; };
+		2E9AD5A765FB36316B30B1CA /* PixelMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PixelMap.swift; sourceTree = "<group>"; };
+		326FD1A3478E352A275D442C /* SQLiteDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
+		34DACC305EF6C718ABC249B2 /* FogOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogOverlay.swift; sourceTree = "<group>"; };
+		353A5F2E0706C785228416C6 /* RegionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionModel.swift; sourceTree = "<group>"; };
+		3D9147B20E88C77303BED029 /* HistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryStore.swift; sourceTree = "<group>"; };
+		474FAFD018B9C2F5D2EC58CF /* HistoryRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryRecorder.swift; sourceTree = "<group>"; };
+		54BE7600EB58E36DD7096E96 /* FogStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogStore.swift; sourceTree = "<group>"; };
+		5D36AD69B8BFD64D6473AAB1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5F6CD317A9849B2FDE4CB7B3 /* FogViewerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogViewerApp.swift; sourceTree = "<group>"; };
+		721050A5FB03C98BD59E0D3C /* HistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTests.swift; sourceTree = "<group>"; };
+		73FEE389AEE419FB4069718D /* FogMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogMapView.swift; sourceTree = "<group>"; };
+		756349E4F99481881A0A768F /* TimelapseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelapseData.swift; sourceTree = "<group>"; };
+		781D35A1E7F0AB4025A44F5B /* DiffCodec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffCodec.swift; sourceTree = "<group>"; };
+		7B680550E3D5D3E61450FD69 /* WatchAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAgent.swift; sourceTree = "<group>"; };
+		7C1D595ECB6E20E7EDA1D947 /* TimelineJSONReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineJSONReader.swift; sourceTree = "<group>"; };
+		7E3CFC8763AA223C437E710F /* GPXReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXReader.swift; sourceTree = "<group>"; };
+		90AB09E39DC77F46A4211EDB /* RegionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTests.swift; sourceTree = "<group>"; };
+		90EA199272F93CF1F5148C09 /* RegionCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCatalog.swift; sourceTree = "<group>"; };
+		9639AAF06C0E08D3240045B0 /* FogDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogDataTests.swift; sourceTree = "<group>"; };
+		999924C04F4FA7874C12EA5A /* RegionStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionStats.swift; sourceTree = "<group>"; };
+		9B76FC21455DC7B8359D1CAC /* regions.bin */ = {isa = PBXFileReference; lastKnownFileType = archive.macbinary; path = regions.bin; sourceTree = "<group>"; };
+		A6B293894D1D86F075DA0F3B /* GPXBackfill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXBackfill.swift; sourceTree = "<group>"; };
+		B79F06BE2BE0950D36BA7D0D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		B980B3CE690E1C614CDE4114 /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
+		BEB77E7E1CE3F76495F3C068 /* RegionRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionRankingView.swift; sourceTree = "<group>"; };
+		C4CA66B6F7D3E565FDD17676 /* FogViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FogViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E20DFE39115FD54658F57D38 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		EF9067AF647B3DCBC702A324 /* FogViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FogViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F284D84C270BE531668100F5 /* HistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModel.swift; sourceTree = "<group>"; };
+		F30518F41A2359587F0239F6 /* HistoryMaintenance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMaintenance.swift; sourceTree = "<group>"; };
+		F4BED4B76AAA65D0D3CE81E4 /* FogData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogData.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		13C064CBB33330B6A6043A1B /* Regions */ = {
+			isa = PBXGroup;
+			children = (
+				2E9AD5A765FB36316B30B1CA /* PixelMap.swift */,
+				90EA199272F93CF1F5148C09 /* RegionCatalog.swift */,
+				353A5F2E0706C785228416C6 /* RegionModel.swift */,
+				BEB77E7E1CE3F76495F3C068 /* RegionRankingView.swift */,
+				999924C04F4FA7874C12EA5A /* RegionStats.swift */,
+			);
+			path = Regions;
+			sourceTree = "<group>";
+		};
+		3D0AD99A9574D85BF0360C23 /* FogViewerTests */ = {
+			isa = PBXGroup;
+			children = (
+				9639AAF06C0E08D3240045B0 /* FogDataTests.swift */,
+				2D62AA6F6A04401FE927CADE /* FogRenderBenchmark.swift */,
+				721050A5FB03C98BD59E0D3C /* HistoryTests.swift */,
+				90AB09E39DC77F46A4211EDB /* RegionTests.swift */,
+			);
+			path = FogViewerTests;
+			sourceTree = "<group>";
+		};
+		4D8E3BC78B2B0C192E04D6A0 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EF9067AF647B3DCBC702A324 /* FogViewer.app */,
+				C4CA66B6F7D3E565FDD17676 /* FogViewerTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		643FF763A4579B90622EB16F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				9B76FC21455DC7B8359D1CAC /* regions.bin */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6DBB66C6BA1545C3D54F34DC = {
+			isa = PBXGroup;
+			children = (
+				7EA569572A2FAD29A670D388 /* FogViewer */,
+				3D0AD99A9574D85BF0360C23 /* FogViewerTests */,
+				4D8E3BC78B2B0C192E04D6A0 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7EA569572A2FAD29A670D388 /* FogViewer */ = {
+			isa = PBXGroup;
+			children = (
+				E20DFE39115FD54658F57D38 /* ContentView.swift */,
+				F4BED4B76AAA65D0D3CE81E4 /* FogData.swift */,
+				73FEE389AEE419FB4069718D /* FogMapView.swift */,
+				34DACC305EF6C718ABC249B2 /* FogOverlay.swift */,
+				54BE7600EB58E36DD7096E96 /* FogStore.swift */,
+				5F6CD317A9849B2FDE4CB7B3 /* FogViewerApp.swift */,
+				B79F06BE2BE0950D36BA7D0D /* Info.plist */,
+				B980B3CE690E1C614CDE4114 /* MapController.swift */,
+				5D36AD69B8BFD64D6473AAB1 /* SettingsView.swift */,
+				20D3C2A352110F8B0E5A54BE /* TimelapseModel.swift */,
+				ECC97FFFA2A1A39B75C6EA3C /* History */,
+				13C064CBB33330B6A6043A1B /* Regions */,
+				643FF763A4579B90622EB16F /* Resources */,
+			);
+			path = FogViewer;
+			sourceTree = "<group>";
+		};
+		ECC97FFFA2A1A39B75C6EA3C /* History */ = {
+			isa = PBXGroup;
+			children = (
+				781D35A1E7F0AB4025A44F5B /* DiffCodec.swift */,
+				A6B293894D1D86F075DA0F3B /* GPXBackfill.swift */,
+				7E3CFC8763AA223C437E710F /* GPXReader.swift */,
+				F30518F41A2359587F0239F6 /* HistoryMaintenance.swift */,
+				F284D84C270BE531668100F5 /* HistoryModel.swift */,
+				474FAFD018B9C2F5D2EC58CF /* HistoryRecorder.swift */,
+				3D9147B20E88C77303BED029 /* HistoryStore.swift */,
+				326FD1A3478E352A275D442C /* SQLiteDatabase.swift */,
+				756349E4F99481881A0A768F /* TimelapseData.swift */,
+				7C1D595ECB6E20E7EDA1D947 /* TimelineJSONReader.swift */,
+				7B680550E3D5D3E61450FD69 /* WatchAgent.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DFC6346D8923FDCCA84C3A3F /* FogViewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 86C435B0FC28F1EC74E9E607 /* Build configuration list for PBXNativeTarget "FogViewer" */;
+			buildPhases = (
+				9BEBE83AD7245F39A349E78B /* Sources */,
+				0DC181D55ED9DC0F84879285 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FogViewer;
+			packageProductDependencies = (
+			);
+			productName = FogViewer;
+			productReference = EF9067AF647B3DCBC702A324 /* FogViewer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		FCCD907543E18C04E6BC3393 /* FogViewerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C636F1AE120CE99FBFBDD1A9 /* Build configuration list for PBXNativeTarget "FogViewerTests" */;
+			buildPhases = (
+				7966861582D865C23583F9BA /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7C561F8AE5090A11A7A8CFD1 /* PBXTargetDependency */,
+			);
+			name = FogViewerTests;
+			packageProductDependencies = (
+			);
+			productName = FogViewerTests;
+			productReference = C4CA66B6F7D3E565FDD17676 /* FogViewerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		743EE963C120CEDEAD39FBCD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					DFC6346D8923FDCCA84C3A3F = {
+						ProvisioningStyle = Manual;
+					};
+					FCCD907543E18C04E6BC3393 = {
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 625816FC0380B6AA973569EF /* Build configuration list for PBXProject "FogViewer" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 6DBB66C6BA1545C3D54F34DC;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DFC6346D8923FDCCA84C3A3F /* FogViewer */,
+				FCCD907543E18C04E6BC3393 /* FogViewerTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0DC181D55ED9DC0F84879285 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82B8CA1D86182352CEF12CE9 /* regions.bin in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7966861582D865C23583F9BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9391FFC28994421AF1E88F29 /* FogDataTests.swift in Sources */,
+				30E1D4AE3EDAC24F4E658E5D /* FogRenderBenchmark.swift in Sources */,
+				F410E6D486D66DD159A45D5B /* HistoryTests.swift in Sources */,
+				D82787420EF5E0593FE1214D /* RegionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9BEBE83AD7245F39A349E78B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A73E71EBE09E37C2CD7BE4C3 /* ContentView.swift in Sources */,
+				437BC40194C586E510AEE425 /* DiffCodec.swift in Sources */,
+				17FB554B7AA3040231190378 /* FogData.swift in Sources */,
+				002C6C789B19B96307609FD3 /* FogMapView.swift in Sources */,
+				A80AE1EC6DB6CD4A55C0541D /* FogOverlay.swift in Sources */,
+				0AD846ED31545B25756BC62E /* FogStore.swift in Sources */,
+				302F0BDFF1C5466C93393F9D /* FogViewerApp.swift in Sources */,
+				EF2F600662A5C2BF46BE049D /* GPXBackfill.swift in Sources */,
+				F3B678807239FE4935CDE582 /* GPXReader.swift in Sources */,
+				0838FFDD5C94ADA96C9349A9 /* HistoryMaintenance.swift in Sources */,
+				CD4433059C76CACF8ED80649 /* HistoryModel.swift in Sources */,
+				07687DEE03C4606F042D3270 /* HistoryRecorder.swift in Sources */,
+				00E485131B01C054E50AB8DE /* HistoryStore.swift in Sources */,
+				8161C0D9914818D934690100 /* MapController.swift in Sources */,
+				620DB034BF1D495110D1515E /* PixelMap.swift in Sources */,
+				C40991F915D22C2281E7636D /* RegionCatalog.swift in Sources */,
+				5768A5DC64B04C23474E368D /* RegionModel.swift in Sources */,
+				2B4DC65E1852A9CEC8756DBD /* RegionRankingView.swift in Sources */,
+				D32403BCAB94F6F91D1CA933 /* RegionStats.swift in Sources */,
+				B5A2C44986EC0D902E1498AD /* SQLiteDatabase.swift in Sources */,
+				A98BC5E40016F3EC94DC8B3C /* SettingsView.swift in Sources */,
+				E6AE9D1C33065D8149D8E797 /* TimelapseData.swift in Sources */,
+				C599E264E9BDC7A32F9C7BC1 /* TimelapseModel.swift in Sources */,
+				F9B1970AE3181915156FA688 /* TimelineJSONReader.swift in Sources */,
+				FCA4D77DE1E2D75AE7D4BA38 /* WatchAgent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7C561F8AE5090A11A7A8CFD1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DFC6346D8923FDCCA84C3A3F /* FogViewer */;
+			targetProxy = A432D247B1F85973126B92F1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		8BD8321FEA6E4D02ABA746EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		92D618D87089DDFA5DCFF849 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kabewall.FogViewerTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FogViewer.app/Contents/MacOS/FogViewer";
+			};
+			name = Release;
+		};
+		951D226DF92E276BFD4D651B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = FogViewer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kabewall.FogViewer;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		BF9553F11FD1E404D58A45B7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kabewall.FogViewerTests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FogViewer.app/Contents/MacOS/FogViewer";
+			};
+			name = Debug;
+		};
+		D6878A8E1154EDC5E4AFE7C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = FogViewer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.kabewall.FogViewer;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DA5026ABEB7AA9B64305BEE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_HARDENED_RUNTIME = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 0.1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		625816FC0380B6AA973569EF /* Build configuration list for PBXProject "FogViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA5026ABEB7AA9B64305BEE2 /* Debug */,
+				8BD8321FEA6E4D02ABA746EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		86C435B0FC28F1EC74E9E607 /* Build configuration list for PBXNativeTarget "FogViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				951D226DF92E276BFD4D651B /* Debug */,
+				D6878A8E1154EDC5E4AFE7C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		C636F1AE120CE99FBFBDD1A9 /* Build configuration list for PBXNativeTarget "FogViewerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BF9553F11FD1E404D58A45B7 /* Debug */,
+				92D618D87089DDFA5DCFF849 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 743EE963C120CEDEAD39FBCD /* Project object */;
+}
