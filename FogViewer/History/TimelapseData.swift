@@ -105,16 +105,22 @@ struct TimelapseCursor {
         return side * side
     }()
 
+    private static let emptyBlock = [UInt8](repeating: 0, count: FowFormat.blockBitmapSize)
+
     private mutating func set(_ bit: UInt64, _ on: Bool) {
         let x = Int(bit >> 32), y = Int(bit & 0xFFFF_FFFF)
         let key = FogData.blockKey(x / 64, y / 64)
         let index = (y % 64) * 8 + (x % 64) / 8
         let mask: UInt8 = 0x80 >> UInt8(x % 8)
-        var bitmap = blocks[key] ?? [UInt8](repeating: 0, count: FowFormat.blockBitmapSize)
-        let was = bitmap[index] & mask != 0
-        guard was != on else { return }
-        if on { bitmap[index] |= mask } else { bitmap[index] &= ~mask }
-        blocks[key] = bitmap.contains { $0 != 0 } ? bitmap : nil
+        // 取り出して書き戻すとブロックがまるごと複製されるので、辞書の中で直接書き換える。
+        if on {
+            guard (blocks[key]?[index] ?? 0) & mask == 0 else { return }
+            blocks[key, default: Self.emptyBlock][index] |= mask
+        } else {
+            guard let byte = blocks[key]?[index], byte & mask != 0 else { return }
+            blocks[key]![index] = byte & ~mask
+            if blocks[key]!.allSatisfy({ $0 == 0 }) { blocks[key] = nil }
+        }
         let lat = FogData.latitude(ofBlockY: Double(y) / 64)
         let area = Self.equatorBitKm2 * pow(cos(lat * .pi / 180), 2)
         visibleBits += on ? 1 : -1

@@ -13,11 +13,13 @@ enum BaseMapStyle: String, CaseIterable, Identifiable {
         }
     }
 
-    var configuration: MKMapConfiguration {
+    /// - Parameter terrain3D: 立体の地形を出すか。出すと地図が重く、メモリも多く使う。
+    func configuration(terrain3D: Bool) -> MKMapConfiguration {
+        let elevation: MKMapConfiguration.ElevationStyle = terrain3D ? .realistic : .flat
         switch self {
-        case .explore: MKStandardMapConfiguration(elevationStyle: .realistic)
-        case .satellite: MKImageryMapConfiguration(elevationStyle: .realistic)
-        case .hybrid: MKHybridMapConfiguration(elevationStyle: .realistic)
+        case .explore: return MKStandardMapConfiguration(elevationStyle: elevation)
+        case .satellite: return MKImageryMapConfiguration(elevationStyle: elevation)
+        case .hybrid: return MKHybridMapConfiguration(elevationStyle: elevation)
         }
     }
 }

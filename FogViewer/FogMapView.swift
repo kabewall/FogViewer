@@ -5,7 +5,10 @@ import SwiftUI
 struct FogMapView: NSViewRepresentable {
     let fog: FogData
     let generation: Int
+    /// 番号 `since` の霧から今の霧までに変わった範囲（タイムラプス用）。分かればそこだけ描き直す。
+    var changed: (since: Int, rect: MKMapRect)? = nil
     let style: BaseMapStyle
+    let terrain3D: Bool
     let fogEnabled: Bool
     let density: FogDensity
     let color: FogColor
@@ -21,21 +24,17 @@ struct FogMapView: NSViewRepresentable {
         map.delegate = context.coordinator
         map.showsZoomControls = true
         map.showsCompass = true
-        map.showsPitchControl = true
         map.showsScale = true
-        map.isPitchEnabled = true
         map.isRotateEnabled = true
-        map.preferredConfiguration = style.configuration
-        context.coordinator.style = style
+        applyStyle(to: map, coordinator: context.coordinator)
         controller.mapView = map
         return map
     }
 
     func updateNSView(_ map: MKMapView, context: Context) {
         let c = context.coordinator
-        if c.style != style {
-            map.preferredConfiguration = style.configuration
-            c.style = style
+        if c.style != style || c.terrain3D != terrain3D {
+            applyStyle(to: map, coordinator: c)
         }
         if c.highlight != highlight {
             if let old = c.highlight { map.removeOverlay(old.outline) }
@@ -48,11 +47,23 @@ struct FogMapView: NSViewRepresentable {
         // 中身だけが変わったとき（タイムラプスの再生や読み直し）は、載せ替えずに差し替えて描き直す。
         // 載せ替えると描き終わるまで霧が消え、再生中にちらつく。
         if var old = c.overlayKey, let overlay = c.overlay {
+            let previous = old.generation
             old.generation = key.generation
             if old == key {
                 c.overlayKey = key
                 overlay.fog = fog
-                map.renderer(for: overlay)?.setNeedsDisplay()
+                guard let renderer = map.renderer(for: overlay) else { return }
+                if let changed, changed.since == previous {
+                    // 再生中は毎コマ画面全体を描き直すと重いので、変わった範囲だけにする。
+                    // 晴れた部分は最小の太さや円の分だけ広がるので、その分（と余裕）を足す。
+                    guard !changed.rect.isNull else { return }
+                    let mapPointsPerPoint = map.visibleMapRect.width / max(map.bounds.width, 1)
+                    let margin = (lineWidth.points / 2 + 4) * mapPointsPerPoint
+                        + 2 * MKMapSize.world.width / Double(1 << FowFormat.worldBitsLog2)
+                    renderer.setNeedsDisplay(changed.rect.insetBy(dx: -margin, dy: -margin))
+                } else {
+                    renderer.setNeedsDisplay()
+                }
                 return
             }
         }
@@ -67,6 +78,20 @@ struct FogMapView: NSViewRepresentable {
         }
     }
 
+    /// 地図の種類と立体表示を反映する。立体をやめるときは傾きも戻す。
+    private func applyStyle(to map: MKMapView, coordinator c: Coordinator) {
+        map.preferredConfiguration = style.configuration(terrain3D: terrain3D)
+        map.isPitchEnabled = terrain3D
+        map.showsPitchControl = terrain3D
+        if !terrain3D, map.camera.pitch != 0 {
+            let camera = map.camera.copy() as! MKMapCamera
+            camera.pitch = 0
+            map.setCamera(camera, animated: true)
+        }
+        c.style = style
+        c.terrain3D = terrain3D
+    }
+
     struct OverlayKey: Equatable {
         var generation: Int
         var enabled: Bool
@@ -77,6 +102,7 @@ struct FogMapView: NSViewRepresentable {
 
     final class Coordinator: NSObject, MKMapViewDelegate {
         var style: BaseMapStyle?
+        var terrain3D: Bool?
         var overlay: FogOverlay?
         var overlayKey: OverlayKey?
         var highlight: RegionHighlight?

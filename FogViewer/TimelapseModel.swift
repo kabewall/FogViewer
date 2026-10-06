@@ -24,6 +24,8 @@ final class TimelapseModel: ObservableObject {
     /// 今の再生位置の霧と、地図に描き直しを知らせるための番号。
     @Published private(set) var fog: FogData = .empty
     @Published private(set) var generation = 0
+    /// 直前の番号から今の番号までに霧が変わった範囲。nil なら全体を描き直す。
+    private(set) var changedRect: MKMapRect?
     @Published private(set) var currentTime = Date()
     @Published private(set) var areaKm2 = 0.0
     @Published var speed: Speed = .month
@@ -103,7 +105,7 @@ final class TimelapseModel: ObservableObject {
         cursor.move(to: t)
         self.cursor = cursor
         currentTime = t
-        publish(cursor)
+        publish(cursor, changedRect: nil)
     }
 
     private func tick() {
@@ -119,15 +121,38 @@ final class TimelapseModel: ObservableObject {
         let added = cursor.move(to: t)
         self.cursor = cursor
         currentTime = t
-        if cursor.applied != before { publish(cursor) }
+        if cursor.applied > before {
+            publish(cursor, changedRect: Self.mapRect(of: cursor.data.steps[before..<cursor.applied]))
+        } else if cursor.applied != before {
+            publish(cursor, changedRect: nil)
+        }
         if follow, !added.isEmpty { followNewArea(added) }
         if t >= end { pause() }
     }
 
-    private func publish(_ cursor: TimelapseCursor) {
+    private func publish(_ cursor: TimelapseCursor, changedRect: MKMapRect?) {
+        self.changedRect = changedRect
         fog = cursor.fogData
         areaKm2 = cursor.areaKm2
         generation += 1
+    }
+
+    /// 段で晴れた・霧に戻ったビットを囲む範囲。
+    private static func mapRect(of steps: ArraySlice<TimelapseData.Step>) -> MKMapRect {
+        var minX = UInt64.max, minY = UInt64.max, maxX: UInt64 = 0, maxY: UInt64 = 0
+        for step in steps {
+            for list in [step.added, step.removed] {
+                for b in list {
+                    let x = b >> 32, y = b & 0xFFFF_FFFF
+                    minX = min(minX, x); maxX = max(maxX, x)
+                    minY = min(minY, y); maxY = max(maxY, y)
+                }
+            }
+        }
+        guard minX <= maxX else { return .null }
+        let k = MKMapSize.world.width / Double(1 << FowFormat.worldBitsLog2)
+        return MKMapRect(x: Double(minX) * k, y: Double(minY) * k,
+                         width: Double(maxX - minX + 1) * k, height: Double(maxY - minY + 1) * k)
     }
 
     /// 新しく晴れた場所が画面の外なら、そこへ地図を動かす（動かしすぎないよう 1.5 秒に 1 回まで）。

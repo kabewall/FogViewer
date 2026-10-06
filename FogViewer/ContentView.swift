@@ -10,6 +10,7 @@ struct ContentView: View {
     @StateObject private var regions = RegionModel()
 
     @AppStorage("mapStyle") private var style: BaseMapStyle = .explore
+    @AppStorage("terrain3D") private var terrain3D = false
     @AppStorage("fogEnabled") private var fogEnabled = true
     @AppStorage("fogDensity") private var density: FogDensity = .medium
     @AppStorage("fogColor") private var fogColor: FogColor = .navy
@@ -22,7 +23,9 @@ struct ContentView: View {
             // タイムラプス中は再生位置の霧を描く（番号は通常時と重ならないよう負にする）
             FogMapView(fog: timelapse.isActive ? timelapse.fog : store.fog,
                        generation: timelapse.isActive ? -(timelapse.generation + 1) : store.generation,
-                       style: style,
+                       changed: timelapse.isActive
+                           ? timelapse.changedRect.map { (since: -timelapse.generation, rect: $0) } : nil,
+                       style: style, terrain3D: terrain3D,
                        fogEnabled: fogEnabled, density: density, color: fogColor, lineWidth: lineWidth,
                        highlight: showsRegions ? regions.highlight : nil, controller: map)
                 .ignoresSafeArea()
@@ -122,6 +125,7 @@ struct ContentView: View {
                     ForEach(BaseMapStyle.allCases) { Text($0.title).tag($0) }
                 }
                 .pickerStyle(.inline)
+                Toggle("立体表示（重い）", isOn: $terrain3D)
                 Group {
                     Picker("霧の濃さ", selection: $density) {
                         ForEach(FogDensity.allCases) { Text($0.title).tag($0) }
