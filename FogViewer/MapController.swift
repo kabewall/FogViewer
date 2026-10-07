@@ -68,8 +68,10 @@ enum FogColor: String, CaseIterable, Identifiable {
 }
 
 /// 晴れた部分の最小の太さ。記録は幅 1 ビット（約 8 m）の線なので、縮小すると見えなくなる。
+/// iOS の Fog of World は記録の点ごとに大きな円で霧を抜くので、`wide` がそれに近い。
+/// その円は地図上の大きさが決まっていて、縮小すると画面上では細くなる。
 enum FogLineWidth: String, CaseIterable, Identifiable {
-    case off, thin, medium, thick
+    case off, thin, medium, thick, wide
     var id: String { rawValue }
 
     var title: String {
@@ -78,6 +80,7 @@ enum FogLineWidth: String, CaseIterable, Identifiable {
         case .thin: "細い（2pt）"
         case .medium: "ふつう（3pt）"
         case .thick: "太い（5pt）"
+        case .wide: "iOS 版に近い"
         }
     }
 
@@ -88,7 +91,14 @@ enum FogLineWidth: String, CaseIterable, Identifiable {
         case .thin: 2
         case .medium: 3
         case .thick: 5
+        case .wide: 3
         }
+    }
+
+    /// 1 ビットを抜く円の直径（ビット数）。地図上の大きさなので縮小すると細くなる。
+    /// 16 ビットは日本の緯度で約 120 m。
+    var bitDiameter: Double {
+        self == .wide ? 16 : 0
     }
 }
 

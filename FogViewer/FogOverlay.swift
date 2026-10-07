@@ -17,12 +17,15 @@ final class FogOverlay: NSObject, MKOverlay {
     let color: FogRGB
     /// 晴れた部分の最小の太さ（画面上のポイント）。0 なら記録のビットをそのまま描く。
     let minLineWidth: Double
+    /// 1 ビットを抜く円の直径（ビット数、地図上の大きさ）。ズームに合わせて画面上の大きさが変わる。
+    let bitDiameter: Double
 
-    init(fog: FogData, opacity: Double, color: FogRGB, minLineWidth: Double) {
+    init(fog: FogData, opacity: Double, color: FogRGB, minLineWidth: Double, bitDiameter: Double = 0) {
         self._fog = fog
         self.opacity = opacity
         self.color = color
         self.minLineWidth = minLineWidth
+        self.bitDiameter = bitDiameter
     }
 
     var coordinate: CLLocationCoordinate2D { CLLocationCoordinate2D(latitude: 0, longitude: 0) }
@@ -35,6 +38,7 @@ final class FogOverlayRenderer: MKOverlayRenderer {
     private let opacity: Double
     private let color: FogRGB
     private let minLineWidth: Double
+    private let bitDiameter: Double
     private let backingScale: Double
 
     init(overlay: FogOverlay, backingScale: Double) {
@@ -42,6 +46,7 @@ final class FogOverlayRenderer: MKOverlayRenderer {
         self.opacity = overlay.opacity
         self.color = overlay.color
         self.minLineWidth = overlay.minLineWidth
+        self.bitDiameter = overlay.bitDiameter
         self.backingScale = backingScale
         super.init(overlay: overlay)
     }
@@ -66,7 +71,9 @@ final class FogOverlayRenderer: MKOverlayRenderer {
 
         // 最小の太さを画像のピクセル数に直す（2 の累乗に丸めた分だけ画面のピクセルとずれる）。
         let screenPixelsPerImagePixel = pixelsPerBit * pow(2, Double(bitsPerPixelLog2))
-        let minDiameter = Int((minLineWidth * backingScale / screenPixelsPerImagePixel).rounded())
+        // 地図上の大きさで決めた円の直径も画像のピクセル数に直し、大きい方を使う。
+        let bitDiameterPixels = bitDiameter / pow(2, Double(bitsPerPixelLog2))
+        let minDiameter = Int(max(minLineWidth * backingScale / screenPixelsPerImagePixel, bitDiameterPixels).rounded())
 
         // 原点を 1 ピクセルの境界にそろえる。
         let align = max(bitsPerPixelLog2, 0)
@@ -234,37 +241,99 @@ enum FogRaster {
             }
         }
 
-        // 2. 印のついたセルを抜く。円は行ごとの区間として前計算しておく。
-        let rows: [(dy: Int, x0: Int, x1: Int)]
+        // 2. 印のついたセルを抜く。
         if diameter > cellPx {
-            let radius = Double(diameter) / 2
-            rows = (0..<diameter).compactMap { j in
-                let y = Double(j) + 0.5 - radius
-                let half = (radius * radius - y * y).squareRoot()
-                let x0 = Int((radius - half).rounded()), x1 = Int((radius + half).rounded())
-                return x0 < x1 ? (j, x0, x1) : nil
-            }
+            clearDisks(&pixels, width: width, height: height, hitList: hitList, gridW: gridW,
+                       marginCells: marginCells, cellPx: cellPx, diameter: diameter)
         } else {
-            rows = (0..<cellPx).map { ($0, 0, cellPx) }
-        }
-        // 図形の左上を、セルの中心と図形の中心がそろう位置に置く。
-        let shapeOffset = (cellPx - diameter) / 2
-
-        pixels.withUnsafeMutableBufferPointer { buf in
-            for i in hitList {
-                let left = ((i % gridW - marginCells) << cellLog2) + shapeOffset
-                let top = ((i / gridW - marginCells) << cellLog2) + shapeOffset
-                for row in rows {
-                    let y = top + row.dy
-                    guard y >= 0, y < height else { continue }
-                    let x0 = max(left + row.x0, 0), x1 = min(left + row.x1, width)
+            pixels.withUnsafeMutableBufferPointer { buf in
+                for i in hitList {
+                    let left = (i % gridW - marginCells) << cellLog2
+                    let top = (i / gridW - marginCells) << cellLog2
+                    let x0 = max(left, 0), x1 = min(left + cellPx, width)
                     guard x0 < x1 else { continue }
-                    let base = y * width
-                    for x in x0..<x1 { buf[base + x] = 0 }
+                    for y in max(top, 0)..<min(top + cellPx, height) {
+                        let base = y * width
+                        for x in x0..<x1 { buf[base + x] = 0 }
+                    }
                 }
             }
         }
         return pixels
+    }
+
+    /// 各セルの中心に直径 `diameter` の円を置き、その和の部分を透明にする。
+    ///
+    /// 円を 1 つずつ押すと円が大きいとき（縮小して太く見せるとき）に遅いので、
+    /// まず列ごとに一番近いセル中心までの縦の距離を求め、行ごとに「その列の円がこの行で覆う区間」を
+    /// 差分配列で重ねる。手間は円の大きさによらず画像の面積に比例する。
+    static func clearDisks(_ pixels: inout [UInt32], width: Int, height: Int, hitList: [Int], gridW: Int,
+                           marginCells: Int, cellPx: Int, diameter: Int) {
+        let radius = Double(diameter) / 2
+        let reach = Int(radius.rounded(.up))
+        // 範囲外のセル中心も含めた、余白つきのピクセル格子。
+        let margin = marginCells * cellPx
+        let extW = width + margin * 2, extH = height + margin * 2
+        // 縦の距離が dy のとき円が横に覆う半幅（中心から ±half まで）。届かなければ -1。
+        let half: [Int] = (0...reach).map { dy in
+            let h2 = radius * radius - Double(dy * dy)
+            guard h2 > 0 else { return -1 }
+            return Int(h2.squareRoot().rounded(.up)) - 1   // dx² < h2 を満たす最大の dx
+        }
+        let far = UInt16(reach + 1)
+        // 列ごとの、一番近いセル中心までの縦の距離（reach を超えたら far）。
+        var dist = [UInt16](repeating: far, count: extW * extH)
+        dist.withUnsafeMutableBufferPointer { d in
+            for i in hitList {
+                let sx = (i % gridW) * cellPx + cellPx / 2
+                let sy = (i / gridW) * cellPx + cellPx / 2
+                guard sx < extW, sy < extH else { continue }
+                d[sy * extW + sx] = 0
+            }
+            for y in 1..<extH {
+                let row = y * extW, prev = row - extW
+                for x in 0..<extW where d[prev + x] < far && d[prev + x] + 1 < d[row + x] {
+                    d[row + x] = d[prev + x] + 1
+                }
+            }
+            for y in stride(from: extH - 2, through: 0, by: -1) {
+                let row = y * extW, next = row + extW
+                for x in 0..<extW where d[next + x] < far && d[next + x] + 1 < d[row + x] {
+                    d[row + x] = d[next + x] + 1
+                }
+            }
+        }
+        var cover = [Int32](repeating: 0, count: extW + 1)
+        dist.withUnsafeBufferPointer { d in
+            pixels.withUnsafeMutableBufferPointer { buf in
+                cover.withUnsafeMutableBufferPointer { cov in
+                    for y in 0..<height {
+                        let row = (y + margin) * extW
+                        var any = false
+                        for x in 0..<extW {
+                            let dy = Int(d[row + x])
+                            guard dy <= reach else { continue }
+                            let h = half[dy]
+                            guard h >= 0 else { continue }
+                            let x0 = max(x - h - margin, 0), x1 = min(x + h + 1 - margin, width)
+                            guard x0 < x1 else { continue }
+                            cov[x0] += 1
+                            cov[x1] -= 1
+                            any = true
+                        }
+                        guard any else { continue }
+                        var count: Int32 = 0
+                        let base = y * width
+                        for x in 0..<width {
+                            count += cov[x]
+                            cov[x] = 0
+                            if count > 0 { buf[base + x] = 0 }
+                        }
+                        cov[width] = 0
+                    }
+                }
+            }
+        }
     }
 
     static func image(fog: FogData, blocks: [(x: Int, y: Int)], originX: Int, originY: Int,

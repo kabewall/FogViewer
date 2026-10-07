@@ -14,7 +14,7 @@ struct ContentView: View {
     @AppStorage("fogEnabled") private var fogEnabled = true
     @AppStorage("fogDensity") private var density: FogDensity = .medium
     @AppStorage("fogColor") private var fogColor: FogColor = .navy
-    @AppStorage("fogLineWidth") private var lineWidth: FogLineWidth = .medium
+    @AppStorage("fogLineWidth") private var lineWidth: FogLineWidth = .wide
     @State private var hasFramedData = false
     @State private var showsRegions = false
 

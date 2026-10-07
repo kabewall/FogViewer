@@ -12,7 +12,7 @@ final class FogRenderBenchmark: XCTestCase {
         guard let dense = fog.blocks.max(by: { $0.value.visitedCount < $1.value.visitedCount }) else { return }
         let cx = Int(dense.key >> 16) * FowFormat.bitmapWidth + 32
         let cy = Int(dense.key & 0xFFFF) * FowFormat.bitmapWidth + 32
-        for diameter in [0, 6] {
+        for diameter in [0, 10, 40] {
         for z in [3, 6, 9, 12, 14, 16, 18] {
             // MapKit の描画単位に近い 512 ピクセル四方（Retina の 256pt タイル）を 9 枚描く。
             let bppLog2 = FowFormat.worldBitsLog2 - z - 9

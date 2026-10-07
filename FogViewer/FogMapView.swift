@@ -58,8 +58,9 @@ struct FogMapView: NSViewRepresentable {
                     // 晴れた部分は最小の太さや円の分だけ広がるので、その分（と余裕）を足す。
                     guard !changed.rect.isNull else { return }
                     let mapPointsPerPoint = map.visibleMapRect.width / max(map.bounds.width, 1)
+                    let mapPointsPerBit = MKMapSize.world.width / Double(1 << FowFormat.worldBitsLog2)
                     let margin = (lineWidth.points / 2 + 4) * mapPointsPerPoint
-                        + 2 * MKMapSize.world.width / Double(1 << FowFormat.worldBitsLog2)
+                        + (lineWidth.bitDiameter / 2 + 2) * mapPointsPerBit
                     renderer.setNeedsDisplay(changed.rect.insetBy(dx: -margin, dy: -margin))
                 } else {
                     renderer.setNeedsDisplay()
@@ -71,7 +72,8 @@ struct FogMapView: NSViewRepresentable {
         if let old = c.overlay { map.removeOverlay(old) }
         c.overlay = nil
         if fogEnabled {
-            let overlay = FogOverlay(fog: fog, opacity: density.opacity, color: color.rgb, minLineWidth: lineWidth.points)
+            let overlay = FogOverlay(fog: fog, opacity: density.opacity, color: color.rgb, minLineWidth: lineWidth.points,
+                                     bitDiameter: lineWidth.bitDiameter)
             // 地域の輪郭より下に置く
             map.insertOverlay(overlay, at: 0, level: .aboveLabels)
             c.overlay = overlay
