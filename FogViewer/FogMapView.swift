@@ -108,6 +108,20 @@ struct FogMapView: NSViewRepresentable {
         var overlay: FogOverlay?
         var overlayKey: OverlayKey?
         var highlight: RegionHighlight?
+        /// 最後に霧を描き直したときの縮尺（画面 1 ポイントあたりの地図上の長さ）。
+        private var lastMapPointsPerPoint: Double?
+
+        /// ズームの途中でも霧を描き直す。MapKit は放っておくと、ズーム中は前の霧を拡大・縮小して見せ、
+        /// 終わってしばらくしてから描き直すので、晴れた部分の太さが遅れて切り替わる。
+        /// 平行移動だけなら太さは変わらないので描き直さない。
+        func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+            let scale = mapView.visibleMapRect.width / max(mapView.bounds.width, 1)
+            defer { lastMapPointsPerPoint = scale }
+            guard let last = lastMapPointsPerPoint, abs(scale / last - 1) > 1e-6,
+                  let overlay, let renderer = mapView.renderer(for: overlay) else { return }
+            renderer.setNeedsDisplay()
+        }
+
         func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
             if let fog = overlay as? FogOverlay {
                 let scale = mapView.window?.backingScaleFactor ?? NSScreen.main?.backingScaleFactor ?? 2
