@@ -66,6 +66,7 @@ struct ContentView: View {
             store.reload()
             history.refresh()
             timelapse.map = map
+            map.centerOnUserLocation()
         }
         .onReceive(NotificationCenter.default.publisher(for: NSApplication.didBecomeActiveNotification)) { _ in
             store.reload()
@@ -73,8 +74,8 @@ struct ContentView: View {
         }
         .onChange(of: store.generation) {
             updateRegions()
-            // 初回だけ記録のある範囲へ移動する。以降は見ている場所を保つ。
-            guard !hasFramedData, let rect = store.visitedMapRect else { return }
+            // 初回だけ記録のある範囲へ移動する（現在地が分かっていればそちらを優先）。以降は見ている場所を保つ。
+            guard !hasFramedData, !map.hasCenteredOnUser, let rect = store.visitedMapRect else { return }
             hasFramedData = true
             map.show(rect: rect, animated: false)
         }

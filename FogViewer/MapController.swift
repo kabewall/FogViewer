@@ -107,7 +107,18 @@ enum FogLineWidth: String, CaseIterable, Identifiable {
 final class MapController: NSObject, ObservableObject, CLLocationManagerDelegate {
     weak var mapView: MKMapView?
     @Published var selectedItem: MKMapItem?
+    /// 起動時に現在地へ移動し終えたか。終えていれば記録のある範囲へは移動しない。
+    private(set) var hasCenteredOnUser = false
     private let locationManager = CLLocationManager()
+    /// 位置情報の許可を待っている間に、許可されたら何をするか。
+    private var pending: PendingLocationAction?
+
+    private enum PendingLocationAction {
+        /// 現在地ボタン：現在地を追いかける。
+        case track
+        /// 起動時：一度だけ現在地を中心にする。
+        case centerOnce
+    }
 
     override init() {
         super.init()
@@ -147,11 +158,27 @@ final class MapController: NSObject, ObservableObject, CLLocationManagerDelegate
     }
 
     func showUserLocation() {
+        pending = nil
         switch locationManager.authorizationStatus {
         case .notDetermined:
+            pending = .track
             locationManager.requestWhenInUseAuthorization()
         case .authorizedAlways, .authorized:
             startTracking()
+        default:
+            break
+        }
+    }
+
+    /// 起動時に一度だけ、現在地を中心にする。許可がない・取れないときは何もしない。
+    func centerOnUserLocation() {
+        switch locationManager.authorizationStatus {
+        case .notDetermined:
+            pending = .centerOnce
+            locationManager.requestWhenInUseAuthorization()
+        case .authorizedAlways, .authorized:
+            pending = .centerOnce
+            locationManager.requestLocation()
         default:
             break
         }
@@ -163,10 +190,44 @@ final class MapController: NSObject, ObservableObject, CLLocationManagerDelegate
         mapView.setUserTrackingMode(.follow, animated: true)
     }
 
+    private func center(on coordinate: CLLocationCoordinate2D) {
+        guard let mapView else { return }
+        mapView.showsUserLocation = true
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 5000, longitudinalMeters: 5000)
+        mapView.setRegion(region, animated: false)
+        hasCenteredOnUser = true
+    }
+
     nonisolated func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
         Task { @MainActor in
-            if status == .authorizedAlways || status == .authorized { self.startTracking() }
+            guard status != .notDetermined, let pending = self.pending else { return }
+            guard status == .authorizedAlways || status == .authorized else {
+                self.pending = nil
+                return
+            }
+            switch pending {
+            case .track:
+                self.pending = nil
+                self.startTracking()
+            case .centerOnce:
+                self.locationManager.requestLocation()
+            }
+        }
+    }
+
+    nonisolated func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let coordinate = locations.last?.coordinate else { return }
+        Task { @MainActor in
+            guard self.pending == .centerOnce else { return }
+            self.pending = nil
+            self.center(on: coordinate)
+        }
+    }
+
+    nonisolated func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        Task { @MainActor in
+            if self.pending == .centerOnce { self.pending = nil }
         }
     }
 }
