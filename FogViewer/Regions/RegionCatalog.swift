@@ -44,6 +44,12 @@ final class RegionCatalog: @unchecked Sendable {
 
     static var bundled: URL? { Bundle(for: RegionCatalog.self).url(forResource: "regions", withExtension: "bin") }
 
+    /// 同梱の境界データ。地域ランキングとバッジで共有し、最初に使うときに一度だけ読む。
+    static let shared = Result { () throws -> RegionCatalog in
+        guard let url = bundled else { throw CocoaError(.fileNoSuchFile) }
+        return try load(url: url)
+    }
+
     static func load(url: URL) throws -> RegionCatalog {
         try RegionCatalog(data: Data(contentsOf: url, options: .mappedIfSafe))
     }

@@ -15,6 +15,8 @@ struct FogMapView: NSViewRepresentable {
     let lineWidth: FogLineWidth
     /// 輪郭を出す地域（地域ランキングで選んだもの）。
     var highlight: RegionHighlight? = nil
+    /// 目標の地点（バッジで選んだもの）。
+    var pins: BadgePins? = nil
     let controller: MapController
 
     func makeCoordinator() -> Coordinator { Coordinator() }
@@ -40,6 +42,11 @@ struct FogMapView: NSViewRepresentable {
             if let old = c.highlight { map.removeOverlay(old.outline) }
             if let highlight { map.addOverlay(highlight.outline, level: .aboveLabels) }
             c.highlight = highlight
+        }
+        if c.pins != pins {
+            if let old = c.pins { map.removeAnnotations(old.annotations) }
+            if let pins { map.addAnnotations(pins.annotations) }
+            c.pins = pins
         }
         // 霧は不変値なので、中身か表示設定が変わったときだけ描き直す。
         let key = OverlayKey(generation: generation, enabled: fogEnabled, density: density, color: color, lineWidth: lineWidth)
@@ -108,6 +115,7 @@ struct FogMapView: NSViewRepresentable {
         var overlay: FogOverlay?
         var overlayKey: OverlayKey?
         var highlight: RegionHighlight?
+        var pins: BadgePins?
         /// 最後に霧を描き直したときの縮尺（画面 1 ポイントあたりの地図上の長さ）。
         private var lastMapPointsPerPoint: Double?
 
@@ -138,6 +146,17 @@ struct FogMapView: NSViewRepresentable {
 
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
             guard !(annotation is MKUserLocation) else { return nil }
+            if let pin = annotation as? BadgePin {
+                let id = "badge"
+                let view = mapView.dequeueReusableAnnotationView(withIdentifier: id) as? MKMarkerAnnotationView
+                    ?? MKMarkerAnnotationView(annotation: pin, reuseIdentifier: id)
+                view.annotation = pin
+                view.canShowCallout = true
+                view.displayPriority = .required
+                view.markerTintColor = pin.reached ? .systemGreen : .systemGray
+                view.glyphImage = NSImage(systemSymbolName: pin.reached ? "checkmark" : "flag.fill", accessibilityDescription: nil)
+                return view
+            }
             let id = "pin"
             let view = mapView.dequeueReusableAnnotationView(withIdentifier: id) as? MKMarkerAnnotationView
                 ?? MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: id)

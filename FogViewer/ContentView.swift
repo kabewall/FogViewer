@@ -8,6 +8,7 @@ struct ContentView: View {
     @EnvironmentObject private var history: HistoryModel
     @StateObject private var timelapse = TimelapseModel()
     @StateObject private var regions = RegionModel()
+    @StateObject private var badges = BadgeModel()
 
     @AppStorage("mapStyle") private var style: BaseMapStyle = .explore
     @AppStorage("terrain3D") private var terrain3D = false
@@ -16,7 +17,8 @@ struct ContentView: View {
     @AppStorage("fogColor") private var fogColor: FogColor = .navy
     @AppStorage("fogLineWidth") private var lineWidth: FogLineWidth = .wide
     @State private var hasFramedData = false
-    @State private var showsRegions = false
+    /// 右側に開いているパネル。
+    @State private var panel: InspectorPanel?
 
     var body: some View {
         NavigationStack {
@@ -27,7 +29,7 @@ struct ContentView: View {
                            ? timelapse.changedRect.map { (since: -timelapse.generation, rect: $0) } : nil,
                        style: style, terrain3D: terrain3D,
                        fogEnabled: fogEnabled, density: density, color: fogColor, lineWidth: lineWidth,
-                       highlight: showsRegions ? regions.highlight : nil, controller: map)
+                       highlight: highlight, pins: panel == .badges ? badges.pins : nil, controller: map)
                 .ignoresSafeArea()
                 .overlay(alignment: .top) {
                     if timelapse.isActive { TimelapseDateBanner(timelapse: timelapse) } else { statusBanner }
@@ -40,9 +42,14 @@ struct ContentView: View {
                 .overlay(alignment: .bottom) {
                     if timelapse.isActive { TimelapseControls(timelapse: timelapse) }
                 }
-                .inspector(isPresented: $showsRegions) {
-                    RegionRankingView(model: regions, map: map)
-                        .inspectorColumnWidth(min: 300, ideal: 360, max: 520)
+                .inspector(isPresented: Binding(get: { panel != nil }, set: { if !$0 { panel = nil } })) {
+                    Group {
+                        switch panel {
+                        case .badges: BadgeListView(model: badges, map: map)
+                        default: RegionRankingView(model: regions, map: map)
+                        }
+                    }
+                    .inspectorColumnWidth(min: 300, ideal: 360, max: 520)
                 }
                 .searchable(text: $search.query, placement: .toolbar, prompt: "マップで検索")
                 .searchSuggestions {
@@ -73,19 +80,42 @@ struct ContentView: View {
             history.refresh()
         }
         .onChange(of: store.generation) {
-            updateRegions()
+            updatePanel()
             // 初回だけ記録のある範囲へ移動する（現在地が分かっていればそちらを優先）。以降は見ている場所を保つ。
             guard !hasFramedData, !map.hasCenteredOnUser, let rect = store.visitedMapRect else { return }
             hasFramedData = true
             map.show(rect: rect, animated: false)
         }
-        .onChange(of: showsRegions) { showsRegions ? updateRegions() : regions.close() }
+        .onChange(of: panel) { old, _ in
+            switch old {
+            case .regions: regions.close()
+            case .badges: badges.close()
+            case nil: break
+            }
+            updatePanel()
+        }
     }
 
-    /// 地域ランキングを開いているときだけ集計する（境界の判定に数秒かかるため）。
-    private func updateRegions() {
-        guard showsRegions else { return }
-        regions.update(fog: store.fog, generation: store.generation)
+    /// 開いているパネルの地図の強調（地域の輪郭）。
+    private var highlight: RegionHighlight? {
+        switch panel {
+        case .regions: regions.highlight
+        case .badges: badges.highlight
+        case nil: nil
+        }
+    }
+
+    /// 開いているパネルだけ集計する（境界の判定に数秒かかるため）。
+    private func updatePanel() {
+        switch panel {
+        case .regions: regions.update(fog: store.fog, generation: store.generation)
+        case .badges: badges.update(fog: store.fog, generation: store.generation)
+        case nil: break
+        }
+    }
+
+    private func toggle(_ target: InspectorPanel) {
+        panel = panel == target ? nil : target
     }
 
     @ToolbarContentBuilder
@@ -98,11 +128,17 @@ struct ContentView: View {
             .disabled(timelapse.isLoading)
             .keyboardShortcut("t", modifiers: [.command, .shift])
 
-            Button { showsRegions.toggle() } label: {
+            Button { toggle(.regions) } label: {
                 Label("地域ランキング", systemImage: "list.number")
             }
-            .help(showsRegions ? "地域ランキングを閉じる" : "国・都道府県・市区町村ごとの探索面積")
+            .help(panel == .regions ? "地域ランキングを閉じる" : "国・都道府県・市区町村ごとの探索面積")
             .keyboardShortcut("r", modifiers: [.command, .shift])
+
+            Button { toggle(.badges) } label: {
+                Label("バッジ", systemImage: "rosette")
+            }
+            .help(panel == .badges ? "バッジを閉じる" : "メッシュ・交点・日本の端などのバッジ")
+            .keyboardShortcut("b", modifiers: [.command, .shift])
 
             Button { map.showUserLocation() } label: {
                 Label("現在地", systemImage: "location")
@@ -188,6 +224,11 @@ struct ContentView: View {
             .padding(.top, 12)
         }
     }
+}
+
+/// 地図の右側に開くパネル。
+private enum InspectorPanel {
+    case regions, badges
 }
 
 /// 検索で選んだ場所。地図の左上に浮かべる。

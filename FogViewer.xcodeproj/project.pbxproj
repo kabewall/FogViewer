@@ -20,12 +20,15 @@
 		5768A5DC64B04C23474E368D /* RegionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353A5F2E0706C785228416C6 /* RegionModel.swift */; };
 		620DB034BF1D495110D1515E /* PixelMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9AD5A765FB36316B30B1CA /* PixelMap.swift */; };
 		8161C0D9914818D934690100 /* MapController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B980B3CE690E1C614CDE4114 /* MapController.swift */; };
+		816708349F5760FB0234E1C0 /* BadgeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC703942CEDF25C09116C5A /* BadgeModel.swift */; };
 		82B8CA1D86182352CEF12CE9 /* regions.bin in Resources */ = {isa = PBXBuildFile; fileRef = 9B76FC21455DC7B8359D1CAC /* regions.bin */; };
 		9391FFC28994421AF1E88F29 /* FogDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9639AAF06C0E08D3240045B0 /* FogDataTests.swift */; };
 		A73E71EBE09E37C2CD7BE4C3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20DFE39115FD54658F57D38 /* ContentView.swift */; };
 		A80AE1EC6DB6CD4A55C0541D /* FogOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34DACC305EF6C718ABC249B2 /* FogOverlay.swift */; };
+		A85AA3F1968431A158A54D43 /* BadgeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EBC40AAC041468D110AE6F1 /* BadgeTests.swift */; };
 		A98BC5E40016F3EC94DC8B3C /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D36AD69B8BFD64D6473AAB1 /* SettingsView.swift */; };
 		B5A2C44986EC0D902E1498AD /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 326FD1A3478E352A275D442C /* SQLiteDatabase.swift */; };
+		C3FAA252FCE7CB9CD77FFF59 /* BadgeStats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D17B0F7DC03A04A3E513E7 /* BadgeStats.swift */; };
 		C40991F915D22C2281E7636D /* RegionCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90EA199272F93CF1F5148C09 /* RegionCatalog.swift */; };
 		C599E264E9BDC7A32F9C7BC1 /* TimelapseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D3C2A352110F8B0E5A54BE /* TimelapseModel.swift */; };
 		CD4433059C76CACF8ED80649 /* HistoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F284D84C270BE531668100F5 /* HistoryModel.swift */; };
@@ -33,6 +36,7 @@
 		D82787420EF5E0593FE1214D /* RegionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90AB09E39DC77F46A4211EDB /* RegionTests.swift */; };
 		E6AE9D1C33065D8149D8E797 /* TimelapseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 756349E4F99481881A0A768F /* TimelapseData.swift */; };
 		EF2F600662A5C2BF46BE049D /* GPXBackfill.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6B293894D1D86F075DA0F3B /* GPXBackfill.swift */; };
+		EFC9FAA1EEF5B219AE022526 /* BadgeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC166890E3B92C0C3435915 /* BadgeListView.swift */; };
 		F3B678807239FE4935CDE582 /* GPXReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E3CFC8763AA223C437E710F /* GPXReader.swift */; };
 		F410E6D486D66DD159A45D5B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 721050A5FB03C98BD59E0D3C /* HistoryTests.swift */; };
 		F9B1970AE3181915156FA688 /* TimelineJSONReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C1D595ECB6E20E7EDA1D947 /* TimelineJSONReader.swift */; };
@@ -58,9 +62,11 @@
 		353A5F2E0706C785228416C6 /* RegionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionModel.swift; sourceTree = "<group>"; };
 		3D9147B20E88C77303BED029 /* HistoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryStore.swift; sourceTree = "<group>"; };
 		474FAFD018B9C2F5D2EC58CF /* HistoryRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryRecorder.swift; sourceTree = "<group>"; };
+		4AC166890E3B92C0C3435915 /* BadgeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeListView.swift; sourceTree = "<group>"; };
 		54BE7600EB58E36DD7096E96 /* FogStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogStore.swift; sourceTree = "<group>"; };
 		5D36AD69B8BFD64D6473AAB1 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5F6CD317A9849B2FDE4CB7B3 /* FogViewerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogViewerApp.swift; sourceTree = "<group>"; };
+		63D17B0F7DC03A04A3E513E7 /* BadgeStats.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeStats.swift; sourceTree = "<group>"; };
 		721050A5FB03C98BD59E0D3C /* HistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryTests.swift; sourceTree = "<group>"; };
 		73FEE389AEE419FB4069718D /* FogMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogMapView.swift; sourceTree = "<group>"; };
 		756349E4F99481881A0A768F /* TimelapseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelapseData.swift; sourceTree = "<group>"; };
@@ -68,6 +74,7 @@
 		7B680550E3D5D3E61450FD69 /* WatchAgent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAgent.swift; sourceTree = "<group>"; };
 		7C1D595ECB6E20E7EDA1D947 /* TimelineJSONReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineJSONReader.swift; sourceTree = "<group>"; };
 		7E3CFC8763AA223C437E710F /* GPXReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPXReader.swift; sourceTree = "<group>"; };
+		7EBC40AAC041468D110AE6F1 /* BadgeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeTests.swift; sourceTree = "<group>"; };
 		90AB09E39DC77F46A4211EDB /* RegionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionTests.swift; sourceTree = "<group>"; };
 		90EA199272F93CF1F5148C09 /* RegionCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionCatalog.swift; sourceTree = "<group>"; };
 		9639AAF06C0E08D3240045B0 /* FogDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FogDataTests.swift; sourceTree = "<group>"; };
@@ -78,6 +85,7 @@
 		B980B3CE690E1C614CDE4114 /* MapController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapController.swift; sourceTree = "<group>"; };
 		BEB77E7E1CE3F76495F3C068 /* RegionRankingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegionRankingView.swift; sourceTree = "<group>"; };
 		C4CA66B6F7D3E565FDD17676 /* FogViewerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FogViewerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DCC703942CEDF25C09116C5A /* BadgeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeModel.swift; sourceTree = "<group>"; };
 		E20DFE39115FD54658F57D38 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		EF9067AF647B3DCBC702A324 /* FogViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FogViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F284D84C270BE531668100F5 /* HistoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryModel.swift; sourceTree = "<group>"; };
@@ -101,6 +109,7 @@
 		3D0AD99A9574D85BF0360C23 /* FogViewerTests */ = {
 			isa = PBXGroup;
 			children = (
+				7EBC40AAC041468D110AE6F1 /* BadgeTests.swift */,
 				9639AAF06C0E08D3240045B0 /* FogDataTests.swift */,
 				2D62AA6F6A04401FE927CADE /* FogRenderBenchmark.swift */,
 				721050A5FB03C98BD59E0D3C /* HistoryTests.swift */,
@@ -148,11 +157,22 @@
 				B980B3CE690E1C614CDE4114 /* MapController.swift */,
 				5D36AD69B8BFD64D6473AAB1 /* SettingsView.swift */,
 				20D3C2A352110F8B0E5A54BE /* TimelapseModel.swift */,
+				BC2F1C84C5388E002B088514 /* Badges */,
 				ECC97FFFA2A1A39B75C6EA3C /* History */,
 				13C064CBB33330B6A6043A1B /* Regions */,
 				643FF763A4579B90622EB16F /* Resources */,
 			);
 			path = FogViewer;
+			sourceTree = "<group>";
+		};
+		BC2F1C84C5388E002B088514 /* Badges */ = {
+			isa = PBXGroup;
+			children = (
+				4AC166890E3B92C0C3435915 /* BadgeListView.swift */,
+				DCC703942CEDF25C09116C5A /* BadgeModel.swift */,
+				63D17B0F7DC03A04A3E513E7 /* BadgeStats.swift */,
+			);
+			path = Badges;
 			sourceTree = "<group>";
 		};
 		ECC97FFFA2A1A39B75C6EA3C /* History */ = {
@@ -265,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A85AA3F1968431A158A54D43 /* BadgeTests.swift in Sources */,
 				9391FFC28994421AF1E88F29 /* FogDataTests.swift in Sources */,
 				30E1D4AE3EDAC24F4E658E5D /* FogRenderBenchmark.swift in Sources */,
 				F410E6D486D66DD159A45D5B /* HistoryTests.swift in Sources */,
@@ -276,6 +297,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFC9FAA1EEF5B219AE022526 /* BadgeListView.swift in Sources */,
+				816708349F5760FB0234E1C0 /* BadgeModel.swift in Sources */,
+				C3FAA252FCE7CB9CD77FFF59 /* BadgeStats.swift in Sources */,
 				A73E71EBE09E37C2CD7BE4C3 /* ContentView.swift in Sources */,
 				437BC40194C586E510AEE425 /* DiffCodec.swift in Sources */,
 				17FB554B7AA3040231190378 /* FogData.swift in Sources */,

@@ -133,7 +133,7 @@ final class MapController: NSObject, ObservableObject, CLLocationManagerDelegate
 
     func show(item: MKMapItem) {
         guard let mapView else { return }
-        mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
+        mapView.removeAnnotations(searchPins(in: mapView))
         let pin = MKPointAnnotation()
         pin.coordinate = item.placemark.coordinate
         pin.title = item.name
@@ -143,10 +143,15 @@ final class MapController: NSObject, ObservableObject, CLLocationManagerDelegate
         selectedItem = item
     }
 
+    /// 検索で立てたピン（現在地とバッジの目標は除く）。
+    private func searchPins(in mapView: MKMapView) -> [MKAnnotation] {
+        mapView.annotations.filter { !($0 is MKUserLocation) && !($0 is BadgePin) }
+    }
+
     func clearSelection() {
         selectedItem = nil
         guard let mapView else { return }
-        mapView.removeAnnotations(mapView.annotations.filter { !($0 is MKUserLocation) })
+        mapView.removeAnnotations(searchPins(in: mapView))
     }
 
     func zoom(by factor: Double) {

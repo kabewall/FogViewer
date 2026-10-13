@@ -77,8 +77,7 @@ final class RegionModel: ObservableObject {
     }
 
     nonisolated private static func loadCatalog() throws -> RegionCatalog {
-        guard let url = RegionCatalog.bundled else { throw CocoaError(.fileNoSuchFile) }
-        return try RegionCatalog.load(url: url)
+        try RegionCatalog.shared.get()
     }
 
     func pixelMap(for parent: Int?) -> PixelMap? {

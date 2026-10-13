@@ -16,6 +16,7 @@ FogViewer reads the Fog of World Sync folder in your iCloud Drive directly and d
 - **Backfill** — Fills in when each place was first visited, using GPX files and Google Timeline exports (iOS and Android formats).
 - **Timelapse** — Replays how the fog cleared over time.
 - **Region ranking** — Shows how much of each country, and of each Japanese prefecture and municipality, you have explored.
+- **Badges** — Awards bronze, silver, and gold badges from your current fog: 1 km and 10 km grid squares in Japan (overall and per prefecture), latitude/longitude confluences, and the four extreme capes of Japan's main islands.
 
 ## Requirements
 
